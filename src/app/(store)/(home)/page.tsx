@@ -4,13 +4,6 @@ import { api } from '@/data/api'
 import { Product } from '@/data/types/product'
 import { Metadata } from 'next'
 
-export const dynamic = 'force-dynamic'
-
-export async function generateStaticParams() {
-  const products: Product[] = await api('/products').then((res) => res.json())
-  return products.map((product) => ({ ...product }))
-}
-
 async function getFeaturedProducts(): Promise<Product[]> {
   const response = await api('/products/featured', {
     next: {

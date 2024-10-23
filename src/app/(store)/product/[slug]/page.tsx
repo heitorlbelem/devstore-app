@@ -9,13 +9,6 @@ type ProductPageParams = {
   slug: string
 }
 
-export const dynamic = 'force-dynamic'
-
-export async function generateStaticParams() {
-  const products: Product[] = await api('/products').then((res) => res.json())
-  return products.map((product) => ({ ...product }))
-}
-
 export async function generateMetadata({
   params,
 }: {
