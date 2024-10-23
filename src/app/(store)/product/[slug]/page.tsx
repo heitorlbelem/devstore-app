@@ -8,7 +8,11 @@ type ProductPageParams = {
 }
 
 async function getProduct(slug: string): Promise<Product> {
-  const response = await api(`/products/${slug}`)
+  const response = await api(`/products/${slug}`, {
+    next: {
+      revalidate: 60 * 60,
+    },
+  })
   const product = await response.json()
   return product
 }
