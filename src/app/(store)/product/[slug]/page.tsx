@@ -1,10 +1,23 @@
 import { api } from '@/data/api'
 import { Product } from '@/data/types/product'
+import { Metadata } from 'next'
 
 import Image from 'next/image'
 
 type ProductPageParams = {
   slug: string
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<ProductPageParams>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const product = await getProduct(slug)
+  return {
+    title: product.title,
+  }
 }
 
 async function getProduct(slug: string): Promise<Product> {
