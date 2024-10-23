@@ -8,6 +8,15 @@ interface SearchProps {
   q: string
 }
 
+export const dynamic = 'force-dynamic'
+
+export async function generateStaticParams() {
+  const products: Product[] = await api('/products').then((res) => res.json())
+  return products.map((product) => ({
+    ...product,
+  }))
+}
+
 async function searchProducts(query: string): Promise<Product[]> {
   const response = await api(`/products/search?q=${query}`, {
     next: {

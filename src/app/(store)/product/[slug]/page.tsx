@@ -9,6 +9,13 @@ type ProductPageParams = {
   slug: string
 }
 
+export const dynamic = 'force-dynamic'
+
+export async function generateStaticParams() {
+  const products: Product[] = await api('/products').then((res) => res.json())
+  return products.map((product) => ({ ...product }))
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -19,15 +26,6 @@ export async function generateMetadata({
   return {
     title: product.title,
   }
-}
-
-export async function generateStaticParams() {
-  const response = await api('/products/featured')
-  const products: Product[] = await response.json()
-
-  return products.map((product) => {
-    return { slug: product.slug }
-  })
 }
 
 async function getProduct(slug: string): Promise<Product> {
@@ -43,9 +41,9 @@ async function getProduct(slug: string): Promise<Product> {
 export default async function ProductPage({
   params,
 }: {
-  params: Promise<ProductPageParams>
+  params: { slug: string }
 }) {
-  const { slug } = await params
+  const { slug } = params
   const product = await getProduct(slug)
 
   return (
