@@ -2,13 +2,13 @@ import { z } from 'zod'
 import data from '../data.json'
 
 export async function GET(
-  request: Request,
-  { params }: { params: { slug: string } },
+  _: Request,
+  { params }: { params: Promise<{ slug: string }> },
 ) {
   await new Promise((resolve) => setTimeout(resolve, 2000))
-
-  const slug = z.string().parse(params.slug)
-  const product = data.products.find((product) => product.slug === slug)
+  const { slug } = await params
+  const parsedSlug = z.string().parse(slug)
+  const product = data.products.find((product) => product.slug === parsedSlug)
   if (!product) {
     return Response.json({ message: 'Product not found' }, { status: 400 })
   }
