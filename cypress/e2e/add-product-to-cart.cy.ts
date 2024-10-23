@@ -2,7 +2,7 @@ describe('add product to cart', () => {
   beforeEach(() => {
     cy.visit('/')
   })
-  
+
   it('should be able to navigate to the product page and add it to the cart', () => {
     cy.get('a[href^="/product"]').first().click()
     cy.location('pathname').should('include', '/product')
