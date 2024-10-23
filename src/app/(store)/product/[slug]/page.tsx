@@ -34,9 +34,9 @@ async function getProduct(slug: string): Promise<Product> {
 export default async function ProductPage({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
-  const { slug } = params
+  const { slug } = await params
   const product = await getProduct(slug)
 
   return (
